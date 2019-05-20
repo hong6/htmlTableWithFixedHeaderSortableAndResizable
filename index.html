@@ -17,11 +17,22 @@
         table#tblFiles {border-spacing: 0; width: 100%; margin-top: -11px; }    
         table#tblFiles th div {position: absolute; color: #0000aa; padding-left: 3px; top: 0; margin-left: -6px; border-left: 2px solid #cccccc; height: 40px; width: 99%; vertical-align: middle;}
         table#tblFiles thead {height: 0; }  
+
+        #drelative2 {
+            position: relative; border: 1px solid #cccccc; padding-top: 40px;
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 100%), linear-gradient(to bottom, rgba(119, 136, 153, 1) 0%, rgba(119, 136, 153, 1) 100%);
+            background-clip: content-box, padding-box;
+        }
+        #dcontainer2 {overflow-y: auto; overflow-x: hidden; height: 150px; }
+        table#tblFiles2 {border-spacing: 0; width: 100%; margin-top: -11px; }    
+        table#tblFiles2 th div {position: absolute; color: #0000aa; padding-left: 3px; top: 0; margin-left: -6px; border-left: 2px solid #cccccc; height: 40px; width: 99%; vertical-align: middle;}
+        table#tblFiles2 thead {height: 0; }  
     </style>
 </head>
 <body>
     <div class="container-fluid">
-        <div><h4>html Table With Fixed Header Sortable And Resizable</h4></div>       
+        <div><h4>html Table With Fixed Header Sortable And Resizable</h4></div> 
+        <div><h6>-- fake data for testing purpose</h6></div>       
         <div id="drelative" class="row">
             <div id="dcontainer">
                 <table id="tblFiles" class="table table-condensed table-bordered table-striped sortable">
@@ -52,7 +63,7 @@
                     <tr>
                         <td>Visual Studio code</td>
                         <td>Cross Platform SDT</td>
-                        <td>1.33.1</td>
+                        <td>3.08.1</td>
                         <td>01/01/2017</td>
                     </tr>
                     <tr>
@@ -64,7 +75,7 @@
                     <tr>
                         <td>Webpack</td>
                         <td>Open-source JavaScript module bundler</td>
-                        <td>3.3.0</td>
+                        <td>2.3.0</td>
                         <td>02/16/2016</td>
                     </tr>
                     <tr>
@@ -76,7 +87,55 @@
                 </table>
             </div>        
         </div>
-
+        <div><br></div>
+        <div id="drelative2" class="row">
+            <div id="dcontainer2">
+                <table id="tblFiles2" class="table table-condensed table-bordered table-striped sortable">
+                    <tr class="thheader">
+                        <th style="width:40%"><div>Document Name</div></th>
+                        <th style="width:30%"><div>Document Type</div></th>
+                        <th style="width:10%"><div>Version</div></th>
+                        <th style="width:20%"><div>Created Date</div></th>
+                    </tr>
+                    <tr>
+                        <td>Angular</td>
+                        <td>Modern JS Development Tool</td>
+                        <td>5</td>
+                        <td>01/08/2017</td>
+                    </tr>
+                    <tr>
+                        <td>React JS</td>
+                        <td>SPA Development</td>
+                        <td>3</td>
+                        <td>01/01/2014</td>
+                    </tr>
+                    <tr>
+                        <td>Vue JS Without Components</td>
+                        <td>JS development environment</td>
+                        <td>8</td>
+                        <td>08/07/2015</td>
+                    </tr>
+                    <tr>
+                        <td>Vue JS With Components</td>
+                        <td>JS development environment</td>
+                        <td>1.2.1</td>
+                        <td>04/22/2016</td>
+                    </tr>
+                    <tr>
+                        <td>Elm</td>
+                        <td>Future Platform SDT</td>
+                        <td>1.0.1</td>
+                        <td>10/12/2018</td>
+                    </tr>
+                    <tr>
+                        <td>UFO</td>
+                        <td>Open-source ES7 module Bundler</td>
+                        <td>3.3.0</td>
+                        <td>02/16/2016</td>
+                    </tr>                    
+                </table>
+            </div>        
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.0.slim.min.js" 
         integrity="sha256-ZaXnYkHGqIhqTbJ6MB4l9Frs/r7U4jlx7ir8PJYBqbI=" crossorigin="anonymous"></script>

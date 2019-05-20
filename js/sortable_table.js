@@ -26,8 +26,17 @@ sorttable = {
             return;  
         }                
 
+        //display default sort icon
+        var $headrowth = $(tblid + ".sortable > thead > tr > th");      
+        var $lastth = $headrowth.last();
+        if ($lastth.find("div:first").length)
+            $lastth.find("div").append("<span style='font-size:16px' id='sorttable_sortfwdind'>&nbsp;&#x25B4;</span>");
+        else
+            $lastth.append("<span style='font-size:16px' id='sorttable_sortfwdind'>&nbsp;&#x25B4;</span>");       
+
+        $lastth.removeClass("sorttable_sorted_reverse").addClass("sorttable_sorted"); 
+
         // work through each column and calculate its type if it is clicked or not
-        var $headrowth = $(tblid + ".sortable > thead > tr > th");
         $.each($headrowth, function (i, rowth) {
             // skip this col, so if you want to some column not sortable put class 'sorttable_nosort'
             if (!($(rowth).hasClass("sorttable_nosort"))) {
@@ -43,31 +52,30 @@ sorttable = {
                
                 rowth.sorttable_columnindex = i;
                 rowth.sorttable_tbody = table.tBodies[0]; 
-                //rowth.sorttable_tbody = $(".sortable > tbody");
                
-                $(this).click(function (e) {
-                    if ($(this).hasClass("sorttable_sorted")){                        
-                        sorttable.reverse(this.sorttable_tbody);                       
-                        $(this).removeClass("sorttable_sorted").addClass("sorttable_sorted_reverse");                        
-                        $("#sorttable_sortfwdind").remove();
-                        if ($(this).find("div:first").length)
-                            $(this).find("div").append("<span id='sorttable_sortrevind'>&nbsp;&#x25B4;</span>");
-                        else 
-                            $(this).append("<span id='sorttable_sortrevind'>&nbsp;&#x25B4;</span>");                                               
+                $(rowth).click(function (e) {
+                    if ($(rowth).hasClass("sorttable_sorted")){                        
+                        sorttable.reverse(rowth.sorttable_tbody);                       
+                        $(rowth).removeClass("sorttable_sorted").addClass("sorttable_sorted_reverse");
+                        $(tblid + " #sorttable_sortfwdind").remove();  
+                        if ($(rowth).find("div:first").length)
+                            $(rowth).find("div").append("<span style='font-size:16px' id='sorttable_sortrevind'>&nbsp;&#x25BE;</span>");
+                        else
+                            $(rowth).append("<span style='font-size:16px' id='sorttable_sortrevind'>&nbsp;&#x25BE;</span>");
                         return;
                     }
-                    if ($(this).hasClass("sorttable_sorted_reverse")) {                        
-                        sorttable.reverse(this.sorttable_tbody);
-                        $(this).removeClass("sorttable_sorted_reverse").addClass("sorttable_sorted");
-                        $("#sorttable_sortrevind").remove();
-                        if ($(this).find("div:first").length)
-                            $(this).find("div").append("<span id='sorttable_sortfwdind'>&nbsp;&#x25BE;</span>");
-                        else                         
-                            $(this).append("<span id='sorttable_sortfwdind'>&nbsp;&#x25BE;</span>");
+                    if ($(rowth).hasClass("sorttable_sorted_reverse")) {                        
+                        sorttable.reverse(rowth.sorttable_tbody);
+                        $(rowth).removeClass("sorttable_sorted_reverse").addClass("sorttable_sorted");                       
+                        $(tblid + " #sorttable_sortrevind").remove(); 
+                        if ($(rowth).find("div:first").length)
+                            $(rowth).find("div").append("<span style='font-size:16px' id='sorttable_sortfwdind'>&nbsp;&#x25B4;</span>");
+                        else
+                            $(rowth).append("<span style='font-size:16px' id='sorttable_sortfwdind'>&nbsp;&#x25B4;</span>");
                         return;
                     }
-
-                    var $trth = $(".sortable > thead > tr > th");
+                   
+                    var $trth = $(tblid + ".sortable > thead > tr > th");
                     $.each($trth, function (jj, theth) {
                         if ($(theth).hasClass("sorttable_sorted_reverse"))
                             $(theth).removeClass("sorttable_sorted_reverse");
@@ -76,29 +84,44 @@ sorttable = {
                             $(theth).removeClass("sorttable_sorted");
                     });
 
-                    $("#sorttable_sortfwdind").remove();
-                    $("#sorttable_sortrevind").remove();
+                    $(tblid + " #sorttable_sortfwdind").remove();
+                    $(tblid + " #sorttable_sortrevind").remove();
                    
                     var cname = '';
-                    if ($(this).attr("class"))
-                        cname = $(this).attr("class");                   
+                    if ($(rowth).attr("class"))
+                        cname = $(rowth).attr("class");                   
                     cname += ' sorttable_sorted';
-                    $(this).attr("class", cname);
-                    if ($(this).find("div:first").length)
-                        $(this).find("div").append("<span id='sorttable_sortfwdind'>&nbsp;&#x25BE;</span>");
-                    else
-                        $(this).append("<span id='sorttable_sortfwdind'>&nbsp;&#x25BE;</span>");
+                    $(rowth).attr("class", cname);
+
+                    if ($(rowth).find("div:first").length) {
+                        var trimed = $.trim($(rowth).find("div").html());
+                        trimed = trimed.replace(/\s+/g, '');
+                        var count = 0;
+                        if (trimed.match(/▴/g))
+                            count = trimed.match(/▴/g).length;
+                        if (count == 0)
+                            $(rowth).find("div").append("<span style='font-size:16px' id='sorttable_sortfwdind'>&nbsp;&#x25BE;</span>");
+                    }
+                    else {
+                        var trimed = $.trim($(rowth).html());
+                        trimed = trimed.replace(/\s+/g, '');
+                        var count = 0;
+                        if (trimed.match(/▴/g))
+                            count = trimed.match(/▴/g).length;
+                        if (count == 0)
+                            $(rowth).append("<span style='font-size:16px' id='sorttable_sortfwdind'>&nbsp;&#x25BE;</span>");
+                    } 
 
                     var row_array = [];
-                    var col = this.sorttable_columnindex;
-                    var rows = this.sorttable_tbody.rows;
+                    var col = rowth.sorttable_columnindex;
+                    var rows = rowth.sorttable_tbody.rows;
                     for (var j = 0; j < rows.length; j++) {
                         row_array[row_array.length] = [sorttable.getInnerText(rows[j].cells[col]), rows[j]];
                     }
 
-                    row_array.sort(this.sorttable_sortfunction);                    
+                    row_array.sort(rowth.sorttable_sortfunction);                    
                     //row_array.reverse();  //uncomment it for descending order first
-                    var tb = this.sorttable_tbody;
+                    var tb = rowth.sorttable_tbody;
                     for (var j = 0; j < row_array.length; j++) {
                         tb.appendChild(row_array[j][1]);
                     }
@@ -114,7 +137,7 @@ sorttable = {
         for (var i=0; i<table.tBodies[0].rows.length; i++) {
             var text = sorttable.getInnerText(table.tBodies[0].rows[i].cells[column]);
             if (text != '') {
-                if (text.match(/^-?[�$�]?[\d,.]+%?$/)) {
+                if (text.match(/^-?[£$¤]?[\d,.]+%?$/)) {
                     return sorttable.sort_numeric;
                 }
                 // check for a date: dd/mm/yyyy or dd/mm/yy, can have / or . or - as separator, and can be mm/dd as well
@@ -204,12 +227,7 @@ sorttable = {
         if (a[0]==b[0]) return 0;
         if (a[0]<b[0]) return -1;
         return 1;
-    },    
-    //sort_alpha: function (a, b) {   //uncomment this for case-insensitively sorting
-    //    if (a[0].toLowerCase() == b[0].toLowerCase()) return 0;
-    //    if (a[0].toLowerCase() < b[0].toLowerCase()) return -1;
-    //    return 1;
-    //},   
+    },     
     sort_ddmm: function (a, b) {
         var dt1, dt2, y, m, d, mtch;
         mtch = a[0].match(sorttable.DATE_RE);
